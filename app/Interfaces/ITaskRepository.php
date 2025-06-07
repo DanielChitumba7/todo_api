@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Interfaces;
-use Illuminate\Http\Request;
+
 
 interface ITaskRepository
 {
-     public function register(array $data);
-    public function login(string $email, string $password);
-    public function forgotPassword(string $email);
-    public function logout(Request $request);
+     public function GetAll();
+    public function GetById(string $id);
+    public function filterBystatus(string $status);
+    public function Create(array $data);
+    public function Edit(string $id, array $data);
+    public function Delete(string $id);
 }
