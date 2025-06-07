@@ -40,7 +40,9 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request)
     {
         $data = $request->validated();
+        
         $task = $this->TaskService->create($data);
+       
         if (!$task) {
             return response()->json([
                 'message' => 'Failed to create task'

@@ -13,9 +13,11 @@ class Task extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['title', 'description', 'status', 'user_id'];
+    protected $fillable = ['user_id', 'title', 'description', 'status'];
+    
 
-    public function user()
+
+    public function User()
     {
         return $this->belongsTo(User::class);
     }

@@ -24,7 +24,7 @@ class StoreTaskRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'status' => 'required|in:pending,completed,in_progress',
+            'status' => 'in:pending,completed,in_progress',
             'user_id' => 'required|exists:users,id',
         ];
     }
