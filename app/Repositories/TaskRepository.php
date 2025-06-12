@@ -4,10 +4,13 @@ namespace App\Repositories;
 
 use App\Interfaces\ITaskRepository;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class TaskRepository implements ITaskRepository
 {
+    
      public function GetAll()
     {
         return Task::where('user_id', Auth::id())->get(); 
@@ -19,7 +22,7 @@ class TaskRepository implements ITaskRepository
     }
     public function Create(array $data)
     {
-        $user = Auth::id();
+        $user = Auth::user()->id;
         $data['user_id'] = $user;
         return Task::create($data);
     }
