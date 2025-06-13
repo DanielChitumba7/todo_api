@@ -13,7 +13,7 @@ class TaskRepository implements ITaskRepository
     
      public function GetAll()
     {
-        return Task::where('user_id', Auth::id())->get(); 
+        return Task::where('user_id', Auth::user()->id)->get(); 
     }
 
     public function GetById(string $id)

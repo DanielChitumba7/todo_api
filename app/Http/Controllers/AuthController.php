@@ -6,7 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Services\UserService;
 
-
+/**
+ * @OA\Tag(
+ *     name="Autenticação",
+ *     description="Endpoints para autenticação de usuários"
+ * )
+ */
 class AuthController extends Controller
 {
     protected $UserService;
@@ -16,6 +21,25 @@ class AuthController extends Controller
         $this->UserService = $UserService;
     }
 
+    /**
+     * @OA\Post(
+     *     path="/user/register",
+     *     tags={"Autenticação"},
+     *     summary="Registra um novo usuário",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "email", "password", "password_confirmation"},
+     *             @OA\Property(property="name", type="string", example="Daniel"),
+     *             @OA\Property(property="email", type="string", example="daniel@email.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="secret123"),
+     *             @OA\Property(property="password_confirmation", type="string", format="password", example="secret123")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Usuário registrado com sucesso"),
+     *     @OA\Response(response=500, description="Erro ao registrar usuário")
+     * )
+     */
     public function register(StoreUserRequest $request)
     {
         $data = $request->validated();
@@ -34,6 +58,30 @@ class AuthController extends Controller
         ], 201);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/user/login",
+     *     tags={"Autenticação"},
+     *     summary="Autentica um usuário e retorna o token JWT",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email", "password"},
+     *             @OA\Property(property="email", type="string", example="daniel@email.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="secret123")
+     *         )
+     *     ),
+     *    @OA\Schema(
+     *   schema="User",
+    *   @OA\Property(property="id", type="string"),
+    *   @OA\Property(property="name", type="string"),
+    *   @OA\Property(property="email", type="string"),
+    *   
+    * ), 
+     *     @OA\Response(response=200, description="Login bem-sucedido"),
+     *     @OA\Response(response=401, description="Credenciais inválidas")
+     * )
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -49,22 +97,18 @@ class AuthController extends Controller
         ], 200);
     }
 
-  
-    public function forgotPassword(Request $request)
-    {
-        $email = $request->input('email');
-        $result = $this->UserService->forgotPassword($email);
-        if (!$result) {
-            return response()->json([
-                'message' => 'Failed to send password reset link'
-            ], 500);
-        }
-        return response()->json([
-            'message' => 'Password reset link sent successfully'
-        ], 200);
-    }
 
 
+    /**
+     * @OA\Post(
+     *     path="/user/logout",
+     *     tags={"Autenticação"},
+     *     summary="Termina a sessão do usuário autenticado",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Logout bem-sucedido"),
+     *     @OA\Response(response=401, description="Falha no logout")
+     * )
+     */
     public function logout(Request $request)
     {
         $success = $this->UserService->logout($request);
