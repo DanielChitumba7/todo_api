@@ -23,11 +23,6 @@ class UserService
         return $this->UserRepository->login($email, $password);
     }
 
-    public function forgotPassword(string $email)
-    {
-        return $this->UserRepository->forgotPassword($email);
-    }
-       
     public function logout(Request $request)
     {
         return $this->UserRepository->logout($request);

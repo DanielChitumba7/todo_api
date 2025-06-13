@@ -49,10 +49,6 @@ public function register(array $data)
     });
 }
 
-    public function forgotPassword(string $email)
-    {
-        return Password::sendResetLink(['email' => $email]);
-    }
 
     public function logout(Request $request)
     {
