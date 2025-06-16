@@ -1,61 +1,250 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📋 API RESTful de Gerenciamento de Tarefas (To-Do List)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Esta é uma API desenvolvida em **Laravel** com foco em gerenciamento de tarefas (To-Do List). Cada usuário pode se autenticar, criar, listar, editar, filtrar e deletar suas tarefas.
 
-## About Laravel
+## ⚙️ Tecnologias e Padrões Utilizados
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Laravel 12**
+- **Sanctum** para autenticação via token
+- **Padrão Repository Service**
+- **Swagger (OpenAPI)** para documentação da API
+- **Validações customizadas com Form Requests**
+- **Pest** para testes automatizados
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🚀 Endpoints
 
-## Learning Laravel
+### 🧑‍💻 Autenticação
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| POST | `/user/register` | Registra um novo usuário |
+| POST | `/user/login` | Realiza login e retorna token |
+| POST | `/user/logout` | Realiza logout do usuário autenticado |
+| GET  | `/check-auth` | Verifica se o usuário está autenticado |
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### ✅ Tarefas
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/tasks` | Lista todas as tarefas do usuário autenticado |
+| GET | `/tasks/{id}` | Mostra uma tarefa específica |
+| POST | `/tasks` | Cria uma nova tarefa |
+| PUT | `/tasks/{id}` | Atualiza uma tarefa existente |
+| DELETE | `/tasks/{id}` | Exclui uma tarefa existente |
+| GET | `/tasks/status/{status}` | Filtra tarefas por status (`pending`, `completed`) |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Configuração e Execução do Projeto
 
-### Premium Partners
+Siga os passos abaixo para configurar e executar o projeto localmente:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 1. Clonar o Repositório
 
-## Contributing
+```bash
+git clone <https://github.com/DanielChitumba7/todo_api.git>
+cd <todo_api>
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. Instalar Dependências
 
-## Code of Conduct
+Instale as dependências do Composer:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer install
+```
 
-## Security Vulnerabilities
+### 3. Configurar o Ambiente
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Crie o ficheiro de ambiente a partir do exemplo:
 
-## License
+```bash
+cp .env.example .env
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Edite o ficheiro `.env` com as suas configurações de base de dados e outras variáveis de ambiente. Certifique-se de que a secção da base de dados está configurada corretamente (ex: `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
+
+### 4. Gerar a Chave da Aplicação
+
+```bash
+php artisan key:generate
+```
+
+### 5. Rodar as Migrações
+
+Execute as migrações da base de dados para criar as tabelas necessárias:
+
+```bash
+php artisan migrate
+```
+
+### 6. Executar o Servidor Local
+
+Inicie o servidor de desenvolvimento do Laravel:
+
+```bash
+php artisan serve
+```
+
+O servidor estará disponível em `http://127.0.0.1:8000` (ou outra porta, se especificado).
+
+---
+
+## 🧪 Testes Automatizados
+
+Este projeto utiliza **Pest** para testes automatizados. Para executar os testes, utilize o seguinte comando:
+
+```bash
+./vendor/bin/pest
+```
+
+Para mais detalhes sobre como escrever e executar testes com Pest, consulte a documentação oficial do Pest.
+
+---
+
+## 🌐 Documentação da API (Swagger/OpenAPI)
+
+Esta API é documentada utilizando **Swagger (OpenAPI)**, o que permite uma fácil exploração e teste dos endpoints. Para aceder à documentação interativa:
+
+### 1. Instalar Dependências (se ainda não o fez)
+
+Certifique-se de que tem as dependências necessárias para o Swagger instaladas. Normalmente, utiliza-se o `darkaonline/l5-swagger` para Laravel. Se não tiver, adicione via Composer:
+
+```bash
+composer require darkaonline/l5-swagger
+php artisan vendor:publish --provider="L5Swagger\L5SwaggerServiceProvider" --tag="l5-swagger-config"
+php artisan swagger-l5-gen:generate
+```
+
+### 2. Aceder à Documentação
+
+Após iniciar o servidor local (`php artisan serve`), a documentação Swagger estará disponível no seguinte URL:
+
+```
+http://127.0.0.1:8000/api/docs
+```
+
+Nesta interface, poderá:
+
+- **Visualizar todos os endpoints** da API, incluindo métodos HTTP, URLs e descrições.
+- **Verificar os parâmetros** necessários para cada requisição (caminho, query, corpo da requisição).
+- **Consultar exemplos de requisições e respostas** para cada endpoint.
+- **Entender os códigos de status HTTP** retornados pela API.
+- **Testar os endpoints diretamente** a partir da interface, enviando requisições e visualizando as respostas em tempo real.
+
+---
+
+## 🚀 Como Testar a API com Postman
+
+Para testar esta API de forma eficiente, recomendamos o uso do **Postman**, uma ferramenta popular para desenvolvimento e teste de APIs. Siga os passos abaixo para configurar e testar os endpoints.
+
+### 1. Instalar o Postman
+
+Se ainda não tem o Postman, pode fazer o download e instalá-lo a partir do site oficial: [https://www.postman.com/downloads/](https://www.postman.com/downloads/)
+
+
+### 3. Configurar o Ambiente no Postman
+
+É útil configurar um ambiente no Postman para gerir a URL base da sua API e tokens de autenticação:
+
+1. No canto superior direito do Postman, clique no ícone de `Environment Quick Look` (o olho).
+2. Clique em `Add` para criar um novo ambiente.
+3. Dê um nome ao ambiente (ex: `Laravel To-Do API Local`).
+4. Adicione uma variável `base_url` com o valor `http://127.0.0.1:8000/api` (ou a URL onde o seu servidor Laravel está a correr).
+5. Adicione uma variável `auth_token` (deixe-a vazia por enquanto, será preenchida após o login).
+6. Selecione este ambiente no dropdown de ambientes.
+
+### 4. Testar os Endpoints
+
+#### 4.1. Autenticação
+
+##### Registrar um Novo Usuário (`POST /user/register`)
+
+- **Método:** `POST`
+- **URL:** `{{base_url}}/user/register`
+- **Headers:** `Content-Type: application/json`
+- **Body (raw, JSON):**
+  ```json
+  {
+    "name": "Seu Nome",
+    "email": "seu.email@example.com",
+    "password": "sua_senha",
+    "password_confirmation": "sua_senha"
+  }
+  ```
+- **Ação:** Envie a requisição. Você deve receber um `201 Created` com os dados do usuário e um `token`.
+
+##### Realizar Login (`POST /user/login`)
+
+- **Método:** `POST`
+- **URL:** `{{base_url}}/user/login`
+- **Headers:** `Content-Type: application/json`
+- **Body (raw, JSON):**
+  ```json
+  {
+    "email": "seu.email@example.com",
+    "password": "sua_senha"
+  }
+  ```
+- **Ação:** Envie a requisição. Se o login for bem-sucedido, você receberá um `200 OK` com os dados do usuário e um `token`. **Copie este token** e guarde-o na variável de ambiente `auth_token` do Postman.
+
+#### 4.2. Tarefas (Requer Autenticação)
+
+Para todas as requisições de tarefas, adicione o seguinte header de autenticação:
+
+- **Headers:** `Authorization: Bearer {{auth_token}}`
+
+##### Listar Tarefas (`GET /tasks`)
+
+- **Método:** `GET`
+- **URL:** `{{base_url}}/tasks`
+- **Ação:** Envie a requisição. Você deve receber um `200 OK` com uma lista de tarefas.
+
+##### Criar uma Nova Tarefa (`POST /tasks`)
+
+- **Método:** `POST`
+- **URL:** `{{base_url}}/tasks`
+- **Headers:** `Content-Type: application/json`, `Authorization: Bearer {{auth_token}}`
+- **Body (raw, JSON):**
+  ```json
+  {
+    "title": "Minha Nova Tarefa",
+    "description": "Descrição detalhada da tarefa",
+    "status": "pending"
+  }
+  ```
+- **Ação:** Envie a requisição. Você deve receber um `201 Created` com os detalhes da tarefa criada.
+
+##### Atualizar uma Tarefa (`PUT /tasks/{id}`)
+
+- **Método:** `PUT`
+- **URL:** `{{base_url}}/tasks/<ID_DA_TAREFA>` (substitua `<ID_DA_TAREFA>` pelo ID real da tarefa)
+- **Headers:** `Content-Type: application/json`, `Authorization: Bearer {{auth_token}}`
+- **Body (raw, JSON):**
+  ```json
+  {
+    "title": "Tarefa Atualizada",
+    "status": "completed"
+  }
+  ```
+- **Ação:** Envie a requisição. Você deve receber um `200 OK` com os detalhes da tarefa atualizada.
+
+##### Deletar uma Tarefa (`DELETE /tasks/{id}`)
+
+- **Método:** `DELETE`
+- **URL:** `{{base_url}}/tasks/<ID_DA_TAREFA>` (substitua `<ID_DA_TAREFA>` pelo ID real da tarefa)
+- **Headers:** `Authorization: Bearer {{auth_token}}`
+- **Ação:** Envie a requisição. Você deve receber um `200 OK` com uma mensagem de sucesso.
+
+##### Filtrar Tarefas por Status (`GET /tasks/status/{status}`)
+
+- **Método:** `GET`
+- **URL:** `{{base_url}}/tasks/status/pending` (ou `completed`, `in_progress`, etc.)
+- **Headers:** `Authorization: Bearer {{auth_token}}`
+- **Ação:** Envie a requisição. Você deve receber um `200 OK` com uma lista de tarefas filtradas.
+
+---
+
+
